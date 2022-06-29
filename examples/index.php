@@ -49,14 +49,14 @@ try {
     $shipment->setHeight(15);
     $shipment->setWeight(1); // kg
 
-    $order = new Order();
-    $order->setPickupLocationId($pickup_locations[0]['id']);
-    $order->setDeliveryLocation($delivery_locations[0]['id']);
-    $order->setReceiver($receiver);
-    $order->setShipment($shipment);
-    $order_data = $order->prepareOrderData();
+    $new_order = new Order();
+    $new_order->setPickupLocationId($pickup_locations[0]['id']);
+    $new_order->setDeliveryLocation($delivery_locations[0]['id']);
+    $new_order->setReceiver($receiver);
+    $new_order->setShipment($shipment);
+    $new_order_data = $new_order->prepareOrderData();
 
-    $order_response = $api->generateOrder($order_data);
+    $generated_order = $api->generateOrder($new_order_data);
 
     /*** List orders ***/
     $orders_list = $api->getOrders(1, 10);
@@ -87,8 +87,8 @@ try {
     debug_element('Delivery locations', $delivery_locations);
     debug_element('Receiver', $receiver);
     debug_element('Shipment', $shipment);
-    debug_element('Prepared Order data', $order_data);
-    debug_element('Generated Order', $order_response);
+    debug_element('Prepared Order data', $new_order_data);
+    debug_element('Generated Order', $generated_order);
     debug_element('Orders list', $orders_list);
     debug_element('Single Order', $order);
     debug_element('Single Order label', $label);
