@@ -37,6 +37,20 @@ class Helper
     }
 
     /**
+     * Check if string is json
+     * @since 1.0.0
+     *
+     * @param (string) $string - Checking string
+     * @return (boolean) - Result of check
+     */
+    public static function isJson( $string )
+    {
+        json_decode($string);
+        
+        return json_last_error() === JSON_ERROR_NONE;
+    }
+
+    /**
      * Throw exception
      * @since 1.0.0
      * 

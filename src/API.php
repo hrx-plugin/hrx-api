@@ -213,6 +213,10 @@ class API
      */
     private function handleApiResponse( $response, $httpCode )
     {
+        if ( ! Helper::isJson($response) ) {
+            Helper::throwError('The response is not in the correct format');
+        }
+
         $respObj = json_decode($response, true);
 
         if ( $httpCode == 200 || $httpCode == 201 ) {
@@ -223,6 +227,8 @@ class API
             Helper::throwError($respObj['error']);
         }
 
-        Helper::throwError('Unknown error. Response: ' . implode(" \n", $respObj));
+        Helper::throwError('Unknown error' . Helper::printDebug(array(
+            'Response' => json_encode($respObj, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
+        ), false));
     }
 }
