@@ -59,11 +59,11 @@ use HrxApi\Shipment;
 $shipment = new Shipment();
 
 $shipment
-  ->setReference('REF001') // Package ID. Optional.
+  ->setReference('REF001') // Package ID or other identifier. Optional.
   ->setComment('Comment') // Comment for shipment. Optional.
-  ->setLength(15); // Dimensions values in cm. Must be between the min and max values specified for the delivery location. If min or max value in delivery location is null, then value not have min/max limit
-  ->setWidth(15);
-  ->setHeight(15);
+  ->setLength(15) // Dimensions values in cm. Must be between the min and max values specified for the delivery location. If min or max value in delivery location is null, then value not have min/max limit
+  ->setWidth(15)
+  ->setHeight(15)
   ->setWeight(1); // kg
 ```
 
@@ -78,8 +78,8 @@ use HrxApi\Order;
 $order = new Order();
 
 $order
-  ->setPickupLocationId('bcaac6c5-3a69-44e1-9e29-809b8150c997') // Retrieved from the API pickup location ID
-  ->setDeliveryLocation('14fce476-f610-4ff8-a81e-9f6c653ac116') // Retrieved from the API delivery location ID
+  ->setPickupLocationId('bcaac6c5-3a69-44e1-9e29-809b8150c997') // Pickup location ID retrieved from the API
+  ->setDeliveryLocation('14fce476-f610-4ff8-a81e-9f6c653ac116') // Delivery location ID retrieved from the API
   ->setReceiver($receiver) // Receiver object
   ->setShipment($shipment); // Shipment object
 
@@ -112,9 +112,9 @@ $shipment = new Shipment();
 $shipment
   ->setReference('PACK-12345')
   ->setComment('Comment')
-  ->setLength(15); // cm
-  ->setWidth(15); // cm
-  ->setHeight(15); // cm
+  ->setLength(15) // cm
+  ->setWidth(15) // cm
+  ->setHeight(15) // cm
   ->setWeight(1); // kg
 
 $order = new Order();
@@ -154,6 +154,7 @@ $tracking_events = $api->getTrackingEvents('e161c889-782b-4ba2-a691-13dc4baf7b62
 
 ## Getting public tracking information
 
+- The tracking number is indicated in the order data received from the API, if the order was registered without errors
 ```php
 $tracking_information = $api->getTrackingInformation('TRK0099999999'); // Tracking number
 ```
