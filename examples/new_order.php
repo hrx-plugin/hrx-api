@@ -93,6 +93,12 @@ try {
         }
         echo (empty($label)) ? ' Failed.<br/>' : ' Done.<br/>';
         debug_element('Single Order label', $label);
+
+        /*** Cancel order ***/
+        echo 'Canceling order...';
+        $cancel_order = $api->cancelOrder($order_id);
+        echo 'Done.<br/>';
+        debug_element('Canceled Order', $cancel_order);
     }
 
 } catch (Exception $e) {

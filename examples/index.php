@@ -73,6 +73,11 @@ try {
         $label = $api->getLabel($order_id);
     }
 
+    /*** Get order return label ***/
+    if ( $order_id ) {
+        $return_label = $api->getReturnLabel($order_id);
+    }
+
     /*** List order tracking events ***/
     if ( $order_id ) {
         $tracking_events = $api->getTrackingEvents($order_id);
@@ -81,6 +86,15 @@ try {
     /*** Public tracking information (accessible without authorization) ***/
     $tracking_number = ( ! empty($order['tracking_number'])) ? $order['tracking_number'] : 'TRK0099999999';
     $tracking_information = $api->getTrackingInformation($tracking_number);
+
+    /*** Cancel order ***/
+    if ( $order_id ) {
+        try {
+            $canceled_order = $api->cancelOrder($order_id);
+        } catch (Exception $e) {
+            $canceled_order = 'Failed to cancel order. Error: ' . $e->getMessage();
+        }
+    }
     
     /*** Echo data ***/
     debug_element('Pickup locations', $pickup_locations);
@@ -92,8 +106,10 @@ try {
     debug_element('Orders list', $orders_list);
     debug_element('Single Order', $order);
     debug_element('Single Order label', $label);
+    debug_element('Single Order return label', $return_label);
     debug_element('Single Order tracking events', $tracking_events);
     debug_element('Single Order public tracking information', $tracking_information);
+    debug_element('Cancel single order', $canceled_order);
 
 } catch (Exception $e) {
     echo '<b>Error:</b> ' . $e->getMessage();
