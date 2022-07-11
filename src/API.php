@@ -112,6 +112,18 @@ class API
     }
 
     /**
+     * Cancel order
+     * @since 1.0.1
+     * 
+     * @param (string) $order_id - Order ID
+     * @return (array) - Detailed Order information
+     */
+    public function cancelOrder( $order_id )
+    {
+        return $this->callApi($this->url . 'orders/' . $order_id .  '/cancel');
+    }
+
+    /**
      * Get label for Order
      * @since 1.0.0
      * 
@@ -121,6 +133,18 @@ class API
     public function getLabel( $order_id )
     {
         return $this->callApi($this->url . 'orders/' . $order_id . '/label');
+    }
+
+    /**
+     * Get return label for Order
+     * @since 1.0.1
+     * 
+     * @param (string) $order_id - Order ID
+     * @return (array) - PDF file information and content
+     */
+    public function getReturnLabel( $order_id )
+    {
+        return $this->callApi($this->url . 'orders/' . $order_id . '/return_label');
     }
 
     /**

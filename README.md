@@ -147,6 +147,11 @@ Get label (when the tracking number is successfully generated):
 $label = $api->getLabel('e161c889-782b-4ba2-a691-13dc4baf7b62'); // Order ID
 ```
 
+Get return label:
+```php
+$return_label = $api->getReturnLabel('e161c889-782b-4ba2-a691-13dc4baf7b62'); // Order ID
+```
+
 Get tracking events:
 ```php
 $tracking_events = $api->getTrackingEvents('e161c889-782b-4ba2-a691-13dc4baf7b62'); // Order ID
@@ -157,6 +162,12 @@ $tracking_events = $api->getTrackingEvents('e161c889-782b-4ba2-a691-13dc4baf7b62
 - The tracking number is indicated in the order data received from the API, if the order was registered without errors
 ```php
 $tracking_information = $api->getTrackingInformation('TRK0099999999'); // Tracking number
+```
+
+## Cancel order
+
+```php
+$canceled_order = $api->cancelOrder('e161c889-782b-4ba2-a691-13dc4baf7b62'); // Order ID
 ```
 
 ## Examples
