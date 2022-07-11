@@ -120,7 +120,7 @@ class API
      */
     public function cancelOrder( $order_id )
     {
-        return $this->callApi($this->url . 'orders/' . $order_id .  '/cancel');
+        return $this->callApi($this->url . 'orders/' . $order_id .  '/cancel', array('id' => $order_id));
     }
 
     /**
