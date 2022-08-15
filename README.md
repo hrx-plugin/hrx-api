@@ -147,6 +147,11 @@ Get label (when the tracking number is successfully generated):
 $label = $api->getLabel('e161c889-782b-4ba2-a691-13dc4baf7b62'); // Order ID
 ```
 
+Update order ready state. Ready state denotes whether parcel is packed, labelled and ready for pickup. Can be called while order has `new`, `ready` status.
+```php
+$order_ready = $api->changeOrderReadyState('e161c889-782b-4ba2-a691-13dc4baf7b62', true); // Change order ready state. First param - Order ID, second param - whether order is ready
+```
+
 Get return label:
 ```php
 $return_label = $api->getReturnLabel('e161c889-782b-4ba2-a691-13dc4baf7b62'); // Order ID
