@@ -1,5 +1,9 @@
 # Changelog
 
+## [Unreleased]
+### Improved
+- added a function to change order ready state
+
 ## [1.0.1] - Order cancel actions
 
 ### Improved

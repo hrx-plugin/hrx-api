@@ -112,6 +112,19 @@ class API
     }
 
     /**
+     * Update order ready state
+     * @since 1.0.2
+     * 
+     * @param (string) $order_id - Order ID
+     * @param (boolean) $is_ready - Whether order is ready
+     * @return (array) - Detailed Order information
+     */
+    public function changeOrderReadyState( $order_id, $is_ready )
+    {
+        return $this->callApi($this->url . 'orders/' . $order_id . '/update_ready_state', array('id' => $order_id, 'ready' => $is_ready));
+    }
+
+    /**
      * Cancel order
      * @since 1.0.1
      * 
