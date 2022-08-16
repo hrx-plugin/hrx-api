@@ -48,6 +48,22 @@ $receiver
   ->setPhone('58000000', "^6[0-9]{7}$"); // Phone number without code and a second parameter is for check the phone value according to the regex specified in delivery location information
 ```
 
+When sending via courier:
+```php
+use HrxApi\Receiver;
+
+$receiver = new Receiver();
+
+$receiver
+  ->setName('Tester') // Receiver name
+  ->setEmail('test@test.ts') // Receiver email
+  ->setPhone('58000000'); // Phone number without code
+  ->setAddress('Street 1'); // Receiver address
+  ->setPostcode('46123'); // Receiver postcode (zip code)
+  ->setCity('Testuva'); // Receiver city
+  ->setCountry('LT'); // Receiver country code
+```
+
 ## Creating shipment
 
 `use HrxApi\Shipment;` will allow creating Shipment object.
@@ -79,6 +95,7 @@ $order = new Order();
 
 $order
   ->setPickupLocationId('bcaac6c5-3a69-44e1-9e29-809b8150c997') // Pickup location ID retrieved from the API
+  ->setDeliveryKind('delivery_location') // Shipping method. Can be one of: "delivery_location" or "courier".
   ->setDeliveryLocation('14fce476-f610-4ff8-a81e-9f6c653ac116') // Delivery location ID retrieved from the API
   ->setReceiver($receiver) // Receiver object
   ->setShipment($shipment); // Shipment object
@@ -88,7 +105,7 @@ $order_data = $order->prepareOrderData(); // Organized and prepared data for sen
 
 ## Generating order
 
-All process syntax:
+All process syntax when sent to the delivery location:
 ```php
 use HrxApi\API;
 use HrxApi\Receiver;
@@ -98,7 +115,7 @@ use HrxApi\Order;
 $api = new API($token);
 
 $pickup_locations = $api->getPickupLocations(1, 10);
-$delivery_locations = $api->getDeliveryLocations(1, 10);
+$delivery_locations = $api->getDeliveryLocations(1, 10); // Required when shipping to delivery location
 
 $receiver = new Receiver();
 
@@ -121,7 +138,52 @@ $order = new Order();
 
 $order
   ->setPickupLocationId($pickup_locations[0]['id'])
-  ->setDeliveryLocation($delivery_locations[0]['id'])
+  ->setDeliveryKind('delivery_location') // Required when shipping to delivery location
+  ->setDeliveryLocation($delivery_locations[0]['id']) // Required when shipping to delivery location
+  ->setReceiver($receiver)
+  ->setShipment($shipment)
+$order_data = $order->prepareOrderData();
+
+$order_response = $api->generateOrder($order_data); // Data sending to the API for shipment generation
+```
+
+All process syntax when sent to the receiver address via courier:
+```php
+use HrxApi\API;
+use HrxApi\Receiver;
+use HrxApi\Shipment;
+use HrxApi\Order;
+
+$api = new API($token);
+
+$pickup_locations = $api->getPickupLocations(1, 10);
+
+$receiver = new Receiver();
+
+$receiver
+  ->setName('Tester')
+  ->setEmail('test@test.ts')
+  ->setPhone('60000000');
+  ->setAddress('Street 1'); // Required when shipping via courier
+  ->setPostcode('46123'); // Required when shipping via courier
+  ->setCity('Testuva'); // Required when shipping via courier
+  ->setCountry('LT'); // Required when shipping via courier
+
+$shipment = new Shipment();
+
+$shipment
+  ->setReference('PACK-12345')
+  ->setComment('Comment')
+  ->setLength(15) // cm
+  ->setWidth(15) // cm
+  ->setHeight(15) // cm
+  ->setWeight(1); // kg
+
+$order = new Order();
+
+$order
+  ->setPickupLocationId($pickup_locations[0]['id'])
+  ->setDeliveryKind('courier') // Required when shipping via courier
   ->setReceiver($receiver)
   ->setShipment($shipment)
 $order_data = $order->prepareOrderData();
@@ -145,11 +207,6 @@ $order = $api->getOrder('e161c889-782b-4ba2-a691-13dc4baf7b62'); // Order ID
 Get label (when the tracking number is successfully generated):
 ```php
 $label = $api->getLabel('e161c889-782b-4ba2-a691-13dc4baf7b62'); // Order ID
-```
-
-Update order ready state. Ready state denotes whether parcel is packed, labelled and ready for pickup. Can be called while order has `new`, `ready` status.
-```php
-$order_ready = $api->changeOrderReadyState('e161c889-782b-4ba2-a691-13dc4baf7b62', true); // Change order ready state. First param - Order ID, second param - whether order is ready
 ```
 
 Get return label:

@@ -35,18 +35,16 @@ try {
     echo ' Done.<br/>';
     debug_element('Pickup locations', $pickup_locations);
 
-    /*** Delivery locations ***/
-    echo 'Getting delivery locations...';
-    $delivery_locations = $api->getDeliveryLocations(1, 10);
-    echo ' Done.<br/>';
-    debug_element('Delivery locations', $delivery_locations);
-
     /*** Create order ***/
     echo 'Building receiver...';
     $receiver = new Receiver();
     $receiver->setName('Tester');
     $receiver->setEmail('test@test.ts');
-    $receiver->setPhone('58000000', $delivery_locations[0]['recipient_phone_regexp']);
+    $receiver->setPhone('60000000');
+    $receiver->setAddress('Street 1');
+    $receiver->setPostcode('46123');
+    $receiver->setCity('Testuva');
+    $receiver->setCountry('LT');
     echo ' Done.<br/>';
     debug_element('Receiver', $receiver);
 
@@ -64,8 +62,7 @@ try {
     echo 'Building order...';
     $order = new Order();
     $order->setPickupLocationId($pickup_locations[0]['id']);
-    $order->setDeliveryLocation($delivery_locations[0]['id']);
-    $order->setDeliveryKind('delivery_location');
+    $order->setDeliveryKind('courier');
     $order->setReceiver($receiver);
     $order->setShipment($shipment);
     $order_data = $order->prepareOrderData();

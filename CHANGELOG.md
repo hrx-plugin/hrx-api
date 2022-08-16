@@ -3,6 +3,7 @@
 ## [Unreleased]
 ### Improved
 - added a function to change order ready state
+- added shipping via courier
 
 ## [1.0.1] - Order cancel actions
 
