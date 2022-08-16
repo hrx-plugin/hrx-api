@@ -57,10 +57,10 @@ $receiver = new Receiver();
 $receiver
   ->setName('Tester') // Receiver name
   ->setEmail('test@test.ts') // Receiver email
-  ->setPhone('58000000'); // Phone number without code
-  ->setAddress('Street 1'); // Receiver address
-  ->setPostcode('46123'); // Receiver postcode (zip code)
-  ->setCity('Testuva'); // Receiver city
+  ->setPhone('58000000') // Phone number without code
+  ->setAddress('Street 1') // Receiver address
+  ->setPostcode('46123') // Receiver postcode (zip code)
+  ->setCity('Testuva') // Receiver city
   ->setCountry('LT'); // Receiver country code
 ```
 
@@ -141,7 +141,7 @@ $order
   ->setDeliveryKind('delivery_location') // Required when shipping to delivery location
   ->setDeliveryLocation($delivery_locations[0]['id']) // Required when shipping to delivery location
   ->setReceiver($receiver)
-  ->setShipment($shipment)
+  ->setShipment($shipment);
 $order_data = $order->prepareOrderData();
 
 $order_response = $api->generateOrder($order_data); // Data sending to the API for shipment generation
@@ -163,10 +163,10 @@ $receiver = new Receiver();
 $receiver
   ->setName('Tester')
   ->setEmail('test@test.ts')
-  ->setPhone('60000000');
-  ->setAddress('Street 1'); // Required when shipping via courier
-  ->setPostcode('46123'); // Required when shipping via courier
-  ->setCity('Testuva'); // Required when shipping via courier
+  ->setPhone('60000000')
+  ->setAddress('Street 1') // Required when shipping via courier
+  ->setPostcode('46123') // Required when shipping via courier
+  ->setCity('Testuva') // Required when shipping via courier
   ->setCountry('LT'); // Required when shipping via courier
 
 $shipment = new Shipment();
@@ -185,7 +185,7 @@ $order
   ->setPickupLocationId($pickup_locations[0]['id'])
   ->setDeliveryKind('courier') // Required when shipping via courier
   ->setReceiver($receiver)
-  ->setShipment($shipment)
+  ->setShipment($shipment);
 $order_data = $order->prepareOrderData();
 
 $order_response = $api->generateOrder($order_data); // Data sending to the API for shipment generation
