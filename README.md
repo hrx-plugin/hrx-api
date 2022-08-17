@@ -29,7 +29,8 @@ Uses supplied user `$token`. It is called during API object creation.
 
 ```php
 $pickup_locations = $api->getPickupLocations(1, 100); // Get pickup locations. First param - page number, second param - elements per page
-$delivery_locations = $api->getDeliveryLocations(1, 100); // Get delivery locations. First param - page number, second param - elements per page
+$delivery_locations = $api->getDeliveryLocations(1, 100); // Get delivery locations for terminals. First param - page number, second param - elements per page
+$courier_$delivery_locations = $api->getCourierDeliveryLocations(); // Get delivery locations for courier.
 ```
 
 ## Creating Receiver
@@ -45,7 +46,7 @@ $receiver = new Receiver();
 $receiver
   ->setName('Tester') // Receiver name
   ->setEmail('test@test.ts') // Receiver email
-  ->setPhone('58000000', "^6[0-9]{7}$"); // Phone number without code and a second parameter is for check the phone value according to the regex specified in delivery location information
+  ->setPhone('58000000', "^5[0-9]{6,7}|8[0-9]{7}$"); // Phone number without code and a second parameter is for check the phone value according to the regex specified in delivery location information
 ```
 
 When sending via courier:
@@ -57,11 +58,11 @@ $receiver = new Receiver();
 $receiver
   ->setName('Tester') // Receiver name
   ->setEmail('test@test.ts') // Receiver email
-  ->setPhone('58000000') // Phone number without code
+  ->setPhone('58000000', "^5[0-9]{6,7}|8[0-9]{7}$") // Phone number without code and a second parameter is for check the phone value according to the regex specified in delivery location information
   ->setAddress('Street 1') // Receiver address
   ->setPostcode('46123') // Receiver postcode (zip code)
   ->setCity('Testuva') // Receiver city
-  ->setCountry('LT'); // Receiver country code
+  ->setCountry('EE'); // Receiver country code
 ```
 
 ## Creating shipment
@@ -157,17 +158,27 @@ use HrxApi\Order;
 $api = new API($token);
 
 $pickup_locations = $api->getPickupLocations(1, 10);
+$delivery_locations = $api->getCourierDeliveryLocations();
+
+$receiver_country = 'LT';
+$receiver_delivery_location = array();
+foreach ( $delivery_locations as $delivery_location ) {
+    if ( $delivery_location['country'] == $receiver_country ) {
+        $receiver_delivery_location = $delivery_location;
+        break;
+    }
+}
 
 $receiver = new Receiver();
 
 $receiver
   ->setName('Tester')
   ->setEmail('test@test.ts')
-  ->setPhone('60000000')
+  ->setPhone('60000000', $receiver_delivery_location['recipient_phone_regexp'])
   ->setAddress('Street 1') // Required when shipping via courier
   ->setPostcode('46123') // Required when shipping via courier
   ->setCity('Testuva') // Required when shipping via courier
-  ->setCountry('LT'); // Required when shipping via courier
+  ->setCountry($receiver_country); // Required when shipping via courier
 
 $shipment = new Shipment();
 
