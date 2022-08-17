@@ -56,7 +56,7 @@ class API
     }
 
     /**
-     * Get delivery locations
+     * Get delivery locations for terminals
      * @since 1.0.0
      * 
      * @param (integer) $page - Locations page number
@@ -69,6 +69,17 @@ class API
             'page' => $page,
             'per_page' => $per_page
         ));
+    }
+
+    /**
+     * Get delivery locations for courier
+     * @since 1.0.2
+     * 
+     * @return (array) - Locations for every country
+     */
+    public function getCourierDeliveryLocations()
+    {
+        return $this->callApi($this->url . 'courier_delivery_locations');
     }
 
     /**

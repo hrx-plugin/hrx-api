@@ -35,16 +35,34 @@ try {
     echo ' Done.<br/>';
     debug_element('Pickup locations', $pickup_locations);
 
+    /*** Delivery locations ***/
+    echo 'Getting delivery locations...';
+    $delivery_locations = $api->getCourierDeliveryLocations();
+    echo ' Done.<br/>';
+    debug_element('Delivery locations', $delivery_locations);
+
+    echo 'Preparing delivery location for receiver...';
+    $receiver_country = 'LT';
+    $receiver_delivery_location = array();
+    foreach ( $delivery_locations as $delivery_location ) {
+        if ( $delivery_location['country'] == $receiver_country ) {
+            $receiver_delivery_location = $delivery_location;
+        }
+    }
+    echo ' Done.<br/>';
+    debug_element('Delivery location for receiver', $receiver_delivery_location);
+
     /*** Create order ***/
     echo 'Building receiver...';
+    $receiver_country = 'LT';
     $receiver = new Receiver();
     $receiver->setName('Tester');
     $receiver->setEmail('test@test.ts');
-    $receiver->setPhone('60000000');
+    $receiver->setPhone('60000000', $receiver_delivery_location['recipient_phone_regexp']);
     $receiver->setAddress('Street 1');
     $receiver->setPostcode('46123');
     $receiver->setCity('Testuva');
-    $receiver->setCountry('LT');
+    $receiver->setCountry($receiver_country);
     echo ' Done.<br/>';
     debug_element('Receiver', $receiver);
 
