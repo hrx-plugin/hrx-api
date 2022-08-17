@@ -237,6 +237,14 @@ $tracking_events = $api->getTrackingEvents('e161c889-782b-4ba2-a691-13dc4baf7b62
 $tracking_information = $api->getTrackingInformation('TRK0099999999'); // Tracking number
 ```
 
+## Set order ready state
+
+Ready state denotes whether parcel is packed, labelled and ready for pickup.
+Can be called while order has `new`, `ready` status.
+```php
+$order_ready = $api->changeOrderReadyState('e161c889-782b-4ba2-a691-13dc4baf7b62', true); // Change ready state. First param - order ID, second param - if mark as ready
+```
+
 ## Cancel order
 
 ```php
