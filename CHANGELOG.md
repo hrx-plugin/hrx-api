@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased]
+## [1.0.2] - Courier shipping
 ### Improved
 - added a function to change order ready state
 - added shipping via courier
