@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased]
+## [1.0.3] - Better API class control
 ### Improved
 - increased timeout time to 15 sec
 - added setTimeout() function to API class
