@@ -1,5 +1,6 @@
 # Changelog
 
+## [1.0.5] - Repeat request up to 5 times
 ### Fixed
 - increased CURL request repeat times to 5
 
