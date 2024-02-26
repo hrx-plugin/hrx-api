@@ -389,11 +389,9 @@ class API
             $headers[] = "Authorization: Bearer " . $this->token;
         }
 
-        if ( ! empty($url_params) ) {
-            $url .= '?' . http_build_query($url_params);
-        }
+        $url_query = (empty($url_params)) ? '' : '?' . http_build_query($url_params);
 
-        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_URL, $url . $url_query);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_TIMEOUT, $this->timeout);

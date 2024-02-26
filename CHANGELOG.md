@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.0.7] - Fix URL on repeats
+### Fixed
+- fixed URL query when repeating the request
+
 ## [1.0.6] - Locations API v2
 ### Improved
 - API v2 has started to be used to update delivery locations
