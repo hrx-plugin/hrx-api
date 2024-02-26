@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased]
+## [1.0.7] - Fix URL on repeats
 ### Fixed
 - fixed URL query when repeating the request
 
