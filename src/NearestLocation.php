@@ -35,9 +35,9 @@ class NearestLocation
      * Get locations list
      * @since 1.0.8
      * 
-     * @return (array) List of all locations. May be modificated
+     * @return (array) List of all locations. May be modificated.
      */
-    private function getLocationsList()
+    public function getLocationsList()
     {
         return $this->locations_list;
     }
@@ -171,6 +171,8 @@ class NearestLocation
     /**
      * Finding the nearest location
      * @since 1.0.8
+     * 
+     * @return (object) - Edited this class object
      */
     public function findNearestLocation()
     {
@@ -188,7 +190,7 @@ class NearestLocation
             $distance = self::calculateDistanceBetweenPoints($this->address_coordinates->latitude, $this->address_coordinates->longitude, $location->latitude, $location->longitude);
             $location_array = (array) $location;
             $location_array['distance'] = $distance;
-            $this->locations_list[$key] = $location_array;
+            $this->locations_list[$key] = (object) $location_array;
             if ( $distance < $nearest_location_distance ) {
                 $nearest_location_key = $key;
                 $nearest_location_distance = $distance;
@@ -198,5 +200,27 @@ class NearestLocation
         if ( $nearest_location_key !== '' ) {
             $this->setNearestLocation($this->locations_list[$nearest_location_key]);
         }
+
+        return $this;
+    }
+
+    /**
+     * Sort the list of locations from the nearest. Locations without distance are pushed to the back.
+     * @since 1.0.8
+     * 
+     * @return (object) - Edited this class object
+     */
+    public function sortLocationsByDistance()
+    {
+        usort($this->locations_list, function($a, $b) {
+            if ( ! property_exists($a, 'distance') ) {
+                return 1;
+            }
+            if  ( ! property_exists($b, 'distance') ) {
+                return -1;
+            }
+            return ($a->distance == $b->distance) ? 0 : (($a->distance > $b->distance) ? 1 : -1);
+        });
+        return $this;
     }
 }
