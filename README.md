@@ -68,6 +68,23 @@ foreach ( $delivery_locations_countries as $country ) {
 $courier_$delivery_locations = $api->getCourierDeliveryLocations(); // Get delivery locations for courier.
 ```
 
+## Finding nearest location
+
+The library has an additional feature that allows to find the nearest location in the list of locations. There is also a possibility to sort the list from nearest.
+```php
+use HrxApi\NearestLocation;
+
+$address_coordinates = NearestLocation::getCoordinatesByAddress('Street 1, City', 'LT'); // Get address coordinates
+
+$api_nearest_location = new NearestLocation();
+$api_nearest_location->setLocationsList($locations_list); // Give locations list to the class. A list must be an array of objects. Each (location) object must have a latitude and longitude property.
+$api_nearest_location->setAddressCoordinates($address_coordinates['latitude'], $address_coordinates['longitude']); // Give address coordinates to the class
+$api_nearest_location->findNearestLocation(); // Initiate the search for the nearest location
+
+$nearest_location = $api_nearest_location->getNearestLocation(); // Get the nearest location found
+$sorted_locations_list = $api_nearest_location->sortLocationsByDistance()->getLocationsList(); // Sort a list of locations by distance (from nearest) and get this list
+```
+
 ## Creating Receiver
 
 `use HrxApi\Receiver;` will allow creating Receiver object.
