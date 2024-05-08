@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased]
+## [1.0.8] - Find nearest location
 ### Improved
 - added the possibility to find the nearest location
 
